@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Illuminate\Support\Carbon;
 
 class RegisteredUserController extends Controller
 {
@@ -36,9 +37,13 @@ class RegisteredUserController extends Controller
         ]);
 
         $user = User::create([
-            'name' => $request->name,
+            'nombre' => $request->name,
+            'apellido' => $request->apellido,
+            'ci' => $request->ci,
+            'telefono' => $request->telefono,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'created_at' => Carbon::now(),
         ]);
 
         event(new Registered($user));

@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Models\User;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Hash;
+
 
 class AuthController extends Controller
 {
@@ -28,7 +32,7 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $usuario = Usuario::create([
+        $usuario = User::create([
             'nombre' => $request->nombre,
             'apellido' => $request->apellido,
             'ci' => $request->ci,
@@ -74,7 +78,7 @@ class AuthController extends Controller
             ], 422);
         }
 
-        $usuario = Usuario::where('email', $request->email)->first();
+        $usuario = User::where('email', $request->email)->first();
 
         if (!$usuario || !Hash::check($request->password, $usuario->password)) {
             return response()->json([

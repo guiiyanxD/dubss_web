@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmlns:xmi="http://www.omg.org/spec/XMI/20131001"
+         xmlns:uml="http://www.omg.org/spec/UML/20131001"
+         xmi:version="2.5">
+  <uml:Model xmi:id="model_1" name="SistemaBecas">
+
+
+    
+    <packagedElement xmi:type="uml:Class" xmi:id="Usuario" name="USUARIO">
+      <ownedAttribute name="id" type="bigint" />
+      <ownedAttribute name="nombre" type="string"/>
+      <ownedAttribute name="apellido" type="string"/>
+      <ownedAttribute name="ci" type="string"/>
+      <ownedAttribute name="email" type="string"/>
+      <ownedAttribute name="telefono" type="string"/>
+      <ownedAttribute name="rol" type="enum"/>
+      <ownedAttribute name="email_verified_at" type="timestamp"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+
+    <packagedElement xmi:type="uml:Class" xmi:id="Convocatoria" name="CONVOCATORIA">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="nombre" type="string"/>
+      <ownedAttribute name="codigo" type="string"/>
+      <ownedAttribute name="tipo_beca" type="enum"/>
+      <ownedAttribute name="subtipo" type="string"/>
+      <ownedAttribute name="descripcion" type="text"/>
+      <ownedAttribute name="fecha_inicio" type="date"/>
+      <ownedAttribute name="fecha_fin" type="date"/>
+      <ownedAttribute name="fecha_limite_apelacion" type="date"/>
+      <ownedAttribute name="activa" type="boolean"/>
+      <ownedAttribute name="version" type="string"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Class" xmi:id="FlujoEstado" name="FLUJO_ESTADO">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="nombre" type="string"/>
+      <ownedAttribute name="codigo" type="string"/>
+      <ownedAttribute name="color_hex" type="string"/>
+      <ownedAttribute name="es_inicial" type="boolean"/>
+      <ownedAttribute name="es_final" type="boolean"/>
+      <ownedAttribute name="permite_edicion" type="boolean"/>
+      <ownedAttribute name="descripcion" type="text"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Class" xmi:id="ConvocatoriaFlujo" name="CONVOCATORIA_FLUJO">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="convocatoria_id" type="bigint"/>
+      <ownedAttribute name="estado_id" type="bigint"/>
+      <ownedAttribute name="estado_siguiente_id" type="bigint"/>
+      <ownedAttribute name="orden" type="integer"/>
+      <ownedAttribute name="tiempo_estimado_horas" type="integer"/>
+      <ownedAttribute name="requiere_notificacion" type="boolean"/>
+      <ownedAttribute name="metadatos" type="json"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <!-- REQUISITO -->
+    <packagedElement xmi:type="uml:Class" xmi:id="Requisito" name="REQUISITO">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="nombre" type="string"/>
+      <ownedAttribute name="codigo" type="string"/>
+      <ownedAttribute name="descripcion" type="text"/>
+      <ownedAttribute name="es_comun" type="boolean"/>
+      <ownedAttribute name="tipo_archivo" type="string"/>
+      <ownedAttribute name="tamano_max_mb" type="integer"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <!-- CONVOCATORIA_REQUISITO -->
+    <packagedElement xmi:type="uml:Class" xmi:id="ConvocatoriaRequisito" name="CONVOCATORIA_REQUISITO">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="convocatoria_id" type="bigint"/>
+      <ownedAttribute name="requisito_id" type="bigint"/>
+      <ownedAttribute name="es_obligatorio" type="boolean"/>
+      <ownedAttribute name="orden" type="integer"/>
+      <ownedAttribute name="instrucciones_especificas" type="text"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <!-- TRAMITE -->
+    <packagedElement xmi:type="uml:Class" xmi:id="Tramite" name="TRAMITE">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="codigo" type="string"/>
+      <ownedAttribute name="usuario_id" type="bigint"/>
+      <ownedAttribute name="convocatoria_id" type="bigint"/>
+      <ownedAttribute name="estado_actual_id" type="bigint"/>
+      <ownedAttribute name="turno_id" type="bigint"/>
+      <ownedAttribute name="operador_asignado_id" type="bigint"/>
+      <ownedAttribute name="fecha_solicitud" type="datetime"/>
+      <ownedAttribute name="fecha_ultima_actualizacion" type="datetime"/>
+      <ownedAttribute name="es_apelacion" type="boolean"/>
+      <ownedAttribute name="tramite_original_id" type="bigint"/>
+      <ownedAttribute name="observaciones" type="text"/>
+      <ownedAttribute name="metadatos" type="json"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+      <ownedAttribute name="deleted_at" type="datetime"/>
+    </packagedElement>
+
+    <!-- TRAMITE_DOCUMENTO -->
+    <packagedElement xmi:type="uml:Class" xmi:id="TramiteDocumento" name="TRAMITE_DOCUMENTO">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="tramite_id" type="bigint"/>
+      <ownedAttribute name="requisito_id" type="bigint"/>
+      <ownedAttribute name="nombre_archivo" type="string"/>
+      <ownedAttribute name="ruta_archivo" type="string"/>
+      <ownedAttribute name="hash_archivo" type="string"/>
+      <ownedAttribute name="estado" type="enum"/>
+      <ownedAttribute name="observaciones" type="text"/>
+      <ownedAttribute name="validado_por" type="bigint"/>
+      <ownedAttribute name="validado_en" type="datetime"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <!-- TRAMITE_HISTORIAL -->
+    <packagedElement xmi:type="uml:Class" xmi:id="TramiteHistorial" name="TRAMITE_HISTORIAL">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="tramite_id" type="bigint"/>
+      <ownedAttribute name="estado_anterior_id" type="bigint"/>
+      <ownedAttribute name="estado_nuevo_id" type="bigint"/>
+      <ownedAttribute name="usuario_id" type="bigint"/>
+      <ownedAttribute name="fecha_cambio" type="datetime"/>
+      <ownedAttribute name="tiempo_en_estado_anterior_min" type="integer"/>
+      <ownedAttribute name="comentario" type="text"/>
+      <ownedAttribute name="metadatos" type="json"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <!-- TURNO -->
+    <packagedElement xmi:type="uml:Class" xmi:id="Turno" name="TURNO">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="usuario_id" type="bigint"/>
+      <ownedAttribute name="fecha" type="date"/>
+      <ownedAttribute name="hora_inicio" type="time"/>
+      <ownedAttribute name="hora_fin" type="time"/>
+      <ownedAttribute name="codigo" type="string"/>
+      <ownedAttribute name="estado" type="enum"/>
+      <ownedAttribute name="duracion_minutos" type="integer"/>
+      <ownedAttribute name="atendido_por" type="bigint"/>
+      <ownedAttribute name="atendido_en" type="datetime"/>
+      <ownedAttribute name="observaciones" type="text"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <!-- NOTIFICACION -->
+    <packagedElement xmi:type="uml:Class" xmi:id="Notificacion" name="NOTIFICACION">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="usuario_id" type="bigint"/>
+      <ownedAttribute name="tramite_id" type="bigint"/>
+      <ownedAttribute name="titulo" type="string"/>
+      <ownedAttribute name="mensaje" type="text"/>
+      <ownedAttribute name="tipo" type="enum"/>
+      <ownedAttribute name="canal" type="enum"/>
+      <ownedAttribute name="leida" type="boolean"/>
+      <ownedAttribute name="leida_en" type="datetime"/>
+      <ownedAttribute name="metadatos" type="json"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+    <!-- CONFIG_SISTEMA -->
+    <packagedElement xmi:type="uml:Class" xmi:id="ConfigSistema" name="CONFIG_SISTEMA">
+      <ownedAttribute name="id" type="bigint"/>
+      <ownedAttribute name="clave" type="string"/>
+      <ownedAttribute name="valor" type="text"/>
+      <ownedAttribute name="tipo" type="string"/>
+      <ownedAttribute name="descripcion" type="text"/>
+      <ownedAttribute name="created_at" type="timestamp"/>
+      <ownedAttribute name="updated_at" type="timestamp"/>
+    </packagedElement>
+
+
+    <packagedElement xmi:type="uml:Association" memberEnd="Usuario Tramite">
+      <ownedEnd type="Usuario" multiplicity="1"/>
+      <ownedEnd type="Tramite" multiplicity="0..*"/>
+    </packagedElement>
+
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Usuario" multiplicity="1"/>
+      <ownedEnd type="Turno" multiplicity="0..*"/>
+    </packagedElement>
+
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Usuario" multiplicity="1"/>
+      <ownedEnd type="Notificacion" multiplicity="0..*"/>
+    </packagedElement>
+
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Tramite" multiplicity="0..*"/>
+      <ownedEnd type="Notificacion" multiplicity="0..*"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Convocatoria" multiplicity="1"/>
+      <ownedEnd type="Tramite" multiplicity="0..*"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Convocatoria" multiplicity="1"/>
+      <ownedEnd type="ConvocatoriaFlujo" multiplicity="0..*"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Convocatoria" multiplicity="1"/>
+      <ownedEnd type="ConvocatoriaRequisito" multiplicity="0..*"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="FlujoEstado" multiplicity="1"/>
+      <ownedEnd type="ConvocatoriaFlujo" multiplicity="0..*"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Requisito" multiplicity="1"/>
+      <ownedEnd type="ConvocatoriaRequisito" multiplicity="0..*"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Tramite" multiplicity="1"/>
+      <ownedEnd type="TramiteDocumento" multiplicity="0..*"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Tramite" multiplicity="1"/>
+      <ownedEnd type="TramiteHistorial" multiplicity="0..*"/>
+    </packagedElement>
+
+    <packagedElement xmi:type="uml:Association">
+      <ownedEnd type="Turno" multiplicity="1"/>
+      <ownedEnd type="Tramite" multiplicity="0..*"/>
+    </packagedElement>
+
+  </uml:Model>
+</xmi:XMI>

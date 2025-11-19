@@ -1,5 +1,5 @@
 <?php
-
+require __DIR__.'/auth.php';
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -35,4 +35,4 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/turnos', GestionTurnos::class)->name('turnos');
 });
 
-require __DIR__.'/auth.php';
+

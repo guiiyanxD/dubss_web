@@ -34,6 +34,7 @@ COPY composer.json composer.lock ./
 # Instalar dependencias de PHP (sin dev)
 RUN composer install \
     --no-dev \
+    --no-scripts \
     --no-interaction \
     --no-plugins \
     --prefer-dist \

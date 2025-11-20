@@ -1,18 +1,23 @@
 #!/bin/bash
+# ============================================
+# docker/start.sh
+# Script de inicio para Cloud Run
+# ============================================
+
 set -e
 
 echo "🚀 Starting Laravel DUBSS Application..."
 
-# Crear directorios necesarios
-mkdir -p /tmp/opcache
-mkdir -p /var/log/supervisor
-mkdir -p /var/log/nginx
-mkdir -p /var/log/php
+# Los directorios ya fueron creados en el Dockerfile con permisos correctos
+# Solo verificamos que existan
+if [ ! -d /var/log/supervisor ]; then
+    echo "⚠️  Warning: /var/log/supervisor does not exist"
+fi
 
 # Esperar a que PostgreSQL esté disponible (si está en Cloud SQL)
 if [ ! -z "$DB_HOST" ]; then
     echo "⏳ Waiting for PostgreSQL..."
-    timeout 60 bash -c 'until pg_isready -h $DB_HOST -p ${DB_PORT:-5432} -U $DB_USERNAME; do sleep 2; done' || {
+    timeout 60 bash -c 'until pg_isready -h $DB_HOST -p ${DB_PORT:-5432} -U ${DB_USERNAME:-postgres} 2>/dev/null; do sleep 2; done' || {
         echo "❌ PostgreSQL connection timeout"
         exit 1
     }

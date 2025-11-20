@@ -57,9 +57,10 @@ class Convocatoria extends Model
     // Scopes
     public function scopeActivas($query)
     {
-        return $query->where('activa', true)
-            ->where('fecha_inicio', '<=', now())
+        return $query->where('activa', true);
+/*            ->where('fecha_inicio', '<=', now())
             ->where('fecha_fin', '>=', now());
+            */
     }
 
     public function scopeTipo($query, string $tipo)

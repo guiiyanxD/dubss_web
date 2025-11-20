@@ -18,7 +18,7 @@ return new class extends Migration
             $table->time('hora_inicio');
             $table->time('hora_fin');
             $table->string('codigo')->unique();
-            $table->enum('estado', ['reservado', 'atendido', 'cancelado', 'vencido'])->default('reservado');
+            $table->enum('estado', ['disponible','reservado', 'atendido', 'cancelado', 'vencido'])->default('disponible');
             $table->integer('duracion_minutos')->default(15);
             $table->foreignId('atendido_por')->nullable()->constrained('users')->nullOnDelete();
             $table->timestamp('atendido_en')->nullable();

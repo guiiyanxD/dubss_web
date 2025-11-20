@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             ConvocatoriaSeeder::class,
             ConfigSistemaSeeder::class,
             TurnoSeeder::class,
-            //TramiteConHistorialSeeder::class,
+            TramiteConHistorialSeeder::class,
         ]);
     }
 }

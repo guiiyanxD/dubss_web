@@ -22,14 +22,16 @@ class TurnoSeeder extends Seeder
             return;
         }
 
-        // Crear turnos para HOY
+                // Crear turnos para HOY
         $this->crearTurnosParaDia(Carbon::today(), $estudiantes, 'hoy');
 
         // Crear turnos para MAÑANA
         $this->crearTurnosParaDia(Carbon::tomorrow(), $estudiantes, 'mañana');
 
-        // Crear turnos para PASADO MAÑANA
-        $this->crearTurnosParaDia(Carbon::today()->addDays(2), $estudiantes, 'pasado mañana');
+        for($i=2; $i <15 ; $i++){
+            $this->crearTurnosParaDia(Carbon::today()->addDays($i), $estudiantes, 'día ' . $i);
+        }
+
 
         $this->command->info('✅ Turnos de prueba creados correctamente');
     }
@@ -62,8 +64,9 @@ class TurnoSeeder extends Seeder
             $estado = match(true) {
                 $fecha->isPast() => 'atendido',              // Pasado: atendido
                 $fecha->isToday() && $horaInicio->isPast() => 'atendido', // Hoy pasado: atendido
-                $random <= 7 => 'reservado',                 // 40% reservado
-                default => 'atendido',                       // 30% atendido
+                $random <= 7 => 'disponible',
+                $random <= 3 => 'reservado',
+                default => 'atendido',
             };
 
             // Seleccionar estudiante aleatorio

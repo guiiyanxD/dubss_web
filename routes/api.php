@@ -24,6 +24,13 @@ Route::prefix('v1')->group(function () {
     // Convocatorias (público - solo lectura)
     Route::get('/convocatorias', [ConvocatoriaController::class, 'index']);
     Route::get('/convocatorias/{id}', [ConvocatoriaController::class, 'show']);
+
+    Route::prefix('turnos')->group(function () {
+        Route::get('/disponibles', [TurnoController::class, 'disponibles']);
+        Route::post('/reservar', [TurnoController::class, 'reservar']);
+        Route::get('/mis-turnos', [TurnoController::class, 'misTurnos']);
+        Route::put('/{id}/cancelar', [TurnoController::class, 'cancelar']);
+    });
 });
 
 // Rutas protegidas (requieren autenticación)
@@ -39,12 +46,7 @@ Route::prefix('v1')->middleware('auth:sanctum')->group(function () {
     // ====================================
     // Turnos
     // ====================================
-    Route::prefix('turnos')->group(function () {
-        Route::get('/disponibles', [TurnoController::class, 'disponibles']);
-        Route::post('/reservar', [TurnoController::class, 'reservar']);
-        Route::get('/mis-turnos', [TurnoController::class, 'misTurnos']);
-        Route::put('/{id}/cancelar', [TurnoController::class, 'cancelar']);
-    });
+
 
     // ====================================
     // Trámites

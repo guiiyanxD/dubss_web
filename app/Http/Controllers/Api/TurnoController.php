@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class TurnoController extends Controller
 {
@@ -25,10 +26,10 @@ class TurnoController extends Controller
 
         $fecha = $request->fecha;
         $turnosOcupados = \App\Models\Turno::where('fecha', $fecha)
-            ->whereIn('estado', ['reservado', 'atendido'])
+            ->whereIn('estado', ['reservado', 'atendido', 'vencido', 'cancelado'])
             ->get();
 
-        // Generar slots disponibles
+
         $horaInicio = \App\Models\ConfigSistema::obtener('hora_inicio_turnos', '07:00');
         $horaFin = \App\Models\ConfigSistema::obtener('hora_fin_turnos', '11:45');
         $duracion = \App\Models\ConfigSistema::obtener('duracion_turno_minutos', 15);
@@ -41,7 +42,7 @@ class TurnoController extends Controller
             $horaInicioSlot = $inicio->format('H:i');
             $horaFinSlot = $inicio->copy()->addMinutes($duracion)->format('H:i');
 
-            // Verificar si está ocupado
+
             $ocupado = $turnosOcupados->contains(function($turno) use ($horaInicioSlot) {
                 return $turno->hora_inicio === $horaInicioSlot;
             });
@@ -110,7 +111,6 @@ class TurnoController extends Controller
             ], 400);
         }
 
-        // Generar código único
         $codigo = 'TURN-' . now()->format('Ymd') . '-' . str_pad(\App\Models\Turno::whereDate('created_at', today())->count() + 1, 3, '0', STR_PAD_LEFT);
 
         $turno = \App\Models\Turno::create([

@@ -36,7 +36,6 @@ RUN composer install \
     --no-dev \
     --no-interaction \
     --no-plugins \
-    --no-scripts \
     --prefer-dist \
     --optimize-autoloader
 
@@ -55,7 +54,7 @@ LABEL maintainer="DUBSS Team" \
       org.label-schema.vcs-ref=$VCS_REF \
       org.label-schema.schema-version="1.0"
 
-# Instalar dependencias del sistema
+# Instalar dependencias del sistema Y dependencias de desarrollo
 RUN apk add --no-cache \
     nginx \
     supervisor \
@@ -70,6 +69,10 @@ RUN apk add --no-cache \
     curl \
     git \
     bash \
+    # Dependencias de desarrollo (necesarias para compilar extensiones)
+    autoconf \
+    g++ \
+    make \
     && rm -rf /var/cache/apk/*
 
 # Instalar extensiones PHP requeridas
@@ -86,7 +89,9 @@ RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
         pcntl \
         bcmath \
     && pecl install redis \
-    && docker-php-ext-enable redis
+    && docker-php-ext-enable redis \
+    # Limpiar dependencias de desarrollo (opcional, pero reduce tamaño de imagen)
+    && apk del autoconf g++ make
 
 # Configurar PHP para producción
 COPY docker/php/php.ini /usr/local/etc/php/conf.d/99-custom.ini

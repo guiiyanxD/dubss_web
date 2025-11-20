@@ -38,4 +38,4 @@ images:
   - 'gcr.io/$PROJECT_ID/dubss-laravel:$SHORT_SHA'
   - 'gcr.io/$PROJECT_ID/dubss-laravel:latest'
 
-timeout: '1600s'
+timeout: '16000s'
